@@ -137,8 +137,12 @@ class SeoulCommercialApp:
     def performance_dashboard(self):
         """Get performance dashboard service."""
         if self._performance_dashboard is None:
-            from utils.performance_dashboard import PerformanceDashboard
-            self._performance_dashboard = PerformanceDashboard()
+            try:
+                from utils.performance_dashboard import PerformanceDashboard
+                self._performance_dashboard = PerformanceDashboard()
+            except ImportError:
+                # Fallback to a simple dashboard if the module doesn't exist
+                self._performance_dashboard = None
         return self._performance_dashboard
 
     @property
@@ -399,6 +403,10 @@ class SeoulCommercialApp:
             with col4:
                 st.metric("사용자 만족도", "4.2/5.0", "0.2")
             
+            # Google Maps KPI Dashboard
+            st.subheader("🗺️ Google Maps KPI 대시보드")
+            self._render_google_maps_dashboard()
+            
             # Performance charts
             st.subheader("📊 성능 트렌드")
             
@@ -417,6 +425,25 @@ class SeoulCommercialApp:
             
         except Exception as e:
             self.logger.error(f"Error rendering KPI dashboard tab: {e}")
+
+    def _render_google_maps_dashboard(self):
+        """Render Google Maps KPI dashboard."""
+        try:
+            # Import SeoulMapVisualization
+            from components.seoul_map_visualization import SeoulMapVisualization
+            
+            # Initialize map visualization
+            map_viz = SeoulMapVisualization()
+            
+            # Render map interface
+            map_viz.render_map_interface()
+            
+        except ImportError as e:
+            st.error(f"Google Maps KPI 대시보드 컴포넌트를 불러올 수 없습니다: {e}")
+            st.info("folium과 streamlit-folium 패키지가 설치되어 있는지 확인해주세요.")
+        except Exception as e:
+            self.logger.error(f"Error rendering Google Maps dashboard: {e}")
+            st.error(f"Google Maps 대시보드 렌더링 중 오류가 발생했습니다: {str(e)}")
 
 
     def render_footer(self):

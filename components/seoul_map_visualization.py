@@ -356,21 +356,11 @@ class SeoulMapVisualization:
             # 지도 표시
             st_folium(m, width=700, height=500)
             
-            # 데이터 요약
-            st.subheader("📊 상권 데이터 요약")
-            col1, col2, col3, col4 = st.columns(4)
+            # KPI 대시보드 메트릭
+            self._render_kpi_metrics(commercial_data)
             
-            with col1:
-                st.metric("총 상권 수", len(commercial_data))
-            with col2:
-                total_sales = commercial_data['sales_amount'].sum()
-                st.metric("총 매출액", f"₩{total_sales:,.0f}")
-            with col3:
-                avg_sales = commercial_data['sales_amount'].mean()
-                st.metric("평균 매출액", f"₩{avg_sales:,.0f}")
-            with col4:
-                total_transactions = commercial_data['transaction_count'].sum()
-                st.metric("총 거래건수", f"{total_transactions:,}건")
+            # 구별 분석 차트
+            self._render_district_analysis_charts(commercial_data)
             
             # 상세 데이터 테이블
             st.subheader("📋 상권 상세 정보")
@@ -378,6 +368,79 @@ class SeoulMapVisualization:
             
         else:
             st.warning("표시할 상권 데이터가 없습니다.")
+
+    def _render_kpi_metrics(self, commercial_data: pd.DataFrame):
+        """KPI 메트릭 렌더링"""
+        st.subheader("📊 상권 KPI 메트릭")
+        
+        # 메인 KPI 카드들
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            st.metric("총 상권 수", len(commercial_data))
+        with col2:
+            total_sales = commercial_data['sales_amount'].sum()
+            st.metric("총 매출액", f"₩{total_sales:,.0f}")
+        with col3:
+            avg_sales = commercial_data['sales_amount'].mean()
+            st.metric("평균 매출액", f"₩{avg_sales:,.0f}")
+        with col4:
+            total_transactions = commercial_data['transaction_count'].sum()
+            st.metric("총 거래건수", f"{total_transactions:,}건")
+        
+        # 추가 KPI 메트릭
+        col5, col6, col7, col8 = st.columns(4)
+        
+        with col5:
+            max_sales = commercial_data['sales_amount'].max()
+            st.metric("최대 매출액", f"₩{max_sales:,.0f}")
+        with col6:
+            min_sales = commercial_data['sales_amount'].min()
+            st.metric("최소 매출액", f"₩{min_sales:,.0f}")
+        with col7:
+            avg_transaction = commercial_data['avg_transaction'].mean()
+            st.metric("평균 거래액", f"₩{avg_transaction:,.0f}")
+        with col8:
+            unique_districts = commercial_data['district'].nunique()
+            st.metric("활성 구역", f"{unique_districts}개")
+
+    def _render_district_analysis_charts(self, commercial_data: pd.DataFrame):
+        """구별 분석 차트 렌더링"""
+        st.subheader("📈 구별 상권 분석")
+        
+        # 구별 분석 데이터 생성
+        district_analysis = self.get_district_analysis(commercial_data)
+        
+        if not district_analysis.empty:
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                # 구별 매출액 막대 차트
+                import plotly.express as px
+                fig1 = px.bar(
+                    district_analysis, 
+                    x='district', 
+                    y='총_매출액',
+                    title="구별 총 매출액",
+                    color='총_매출액',
+                    color_continuous_scale='Viridis'
+                )
+                fig1.update_layout(xaxis_tickangle=-45)
+                st.plotly_chart(fig1, use_container_width=True)
+            
+            with col2:
+                # 구별 상권 수 파이 차트
+                fig2 = px.pie(
+                    district_analysis, 
+                    values='상권_수', 
+                    names='district',
+                    title="구별 상권 수 분포"
+                )
+                st.plotly_chart(fig2, use_container_width=True)
+            
+            # 구별 상세 분석 테이블
+            st.subheader("📋 구별 상세 분석")
+            st.dataframe(district_analysis, use_container_width=True)
     
     def get_district_analysis(self, commercial_data: pd.DataFrame) -> pd.DataFrame:
         """

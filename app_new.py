@@ -5,14 +5,19 @@ TASK-004: Streamlit 프런트엔드(UI/UX) 구현 - 메인 애플리케이션
 
 import logging
 import sys
+import os
 from pathlib import Path
 
 import streamlit as st
 import pandas as pd
+from dotenv import load_dotenv
 
 # Add project root to Python path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
+
+# Load environment variables
+load_dotenv()
 
 # Import the new app structure
 from utils.app_structure import get_app
