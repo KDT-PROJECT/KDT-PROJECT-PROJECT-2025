@@ -1,0 +1,33 @@
+name: Build and Push Streamlit App
+
+on:
+  push:
+    branches:
+      - main   # main 브랜치에 push 될 때 실행
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 소스 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Docker Hub 로그인
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 3. Docker 이미지 빌드
+      - name: Build Docker image
+        run: |
+          IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/streamlit-app
+          docker build -t $IMAGE:latest .
+       # 4. Docker Hub에 푸시
+      - name: Push Docker image
+        run: |
+          IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/streamlit-app
+          docker push $IMAGE:latest
