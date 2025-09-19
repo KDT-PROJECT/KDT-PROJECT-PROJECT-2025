@@ -1,0 +1,76 @@
+# Core Dependencies (Python 3.12)
+streamlit
+pandas
+sqlalchemy
+pymysql
+plotly
+python-dotenv
+pydantic
+pydantic-settings
+
+# LLM & AI
+llama-index
+llama-index-llms-huggingface
+llama-index-embeddings-huggingface
+transformers
+torch
+sentence-transformers
+chromadb
+rank-bm25
+google-generativeai
+
+# Testing & Development (TDD)
+pytest
+pytest-cov
+pytest-mock
+mypy
+black
+ruff
+isort
+
+# System Monitoring
+psutil
+numpy
+
+# PDF Processing
+PyPDF2
+PyMuPDF
+pdfplumber
+
+# Database
+mysql-connector-python
+
+# Data Processing
+scikit-learn
+
+# Web Search & HTTP
+duckduckgo-search 
+ requests
+tavily-python
+beautifulsoup4
+lxml
+
+# Excel Processing
+openpyxl
+xlrd
+
+# Word Processing & Document Generation
+python-docx
+fpdf2
+ reportlab
+jinja2
+
+# Additional Document Processing
+pypandoc
+markdown
+markdown2
+
+# Additional utilities
+beautifulsoup4
+lxml
+
+# Google Maps & Visualization
+streamlit-folium
+folium
+googlemaps
+pydeck

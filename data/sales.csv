@@ -1,0 +1,7 @@
+region_id,industry_id,date,sales_amt
+A,Food,2023-01-01,1000
+A,Retail,2023-01-01,2000
+B,Food,2023-01-01,1500
+B,Retail,2023-01-01,1800
+C,Food,2023-01-01,1200
+C,Retail,2023-01-01,2500

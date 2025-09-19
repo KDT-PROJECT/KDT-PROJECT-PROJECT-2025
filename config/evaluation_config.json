@@ -1,0 +1,87 @@
+<<<<<<< HEAD
+{
+  "database": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "root",
+    "password": "password",
+    "database": "seoul_commercial"
+  },
+  "llm": {
+    "model_name": "microsoft/DialoGPT-medium",
+    "device": "cpu",
+    "max_tokens": 512,
+    "temperature": 0.7
+  },
+  "vector_store": {
+    "path": "data/vector_store",
+    "collection_name": "seoul_documents"
+  },
+  "bm25": {
+    "path": "data/bm25_index",
+    "k1": 1.2,
+    "b": 0.75
+  },
+  "report": {
+    "template_path": "prompts/report_templates",
+    "max_tokens": 2048,
+    "temperature": 0.8
+  },
+  "evaluation": {
+    "results_path": "models/artifacts/evaluation",
+    "test_queries_count": 10,
+    "test_configs_count": 5
+  },
+  "enable_rag_evaluation": true,
+  "enable_report_evaluation": true,
+  "kpi_targets": {
+    "sql_accuracy": 0.90,
+    "response_time_p95": 3.0,
+    "evidence_citation_rate": 0.80,
+    "user_satisfaction": 4.0
+  }
+}
+=======
+{
+  "database": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "root",
+    "password": "password",
+    "database": "seoul_commercial"
+  },
+  "llm": {
+    "model_name": "microsoft/DialoGPT-medium",
+    "device": "cpu",
+    "max_tokens": 512,
+    "temperature": 0.7
+  },
+  "vector_store": {
+    "path": "data/vector_store",
+    "collection_name": "seoul_documents"
+  },
+  "bm25": {
+    "path": "data/bm25_index",
+    "k1": 1.2,
+    "b": 0.75
+  },
+  "report": {
+    "template_path": "prompts/report_templates",
+    "max_tokens": 2048,
+    "temperature": 0.8
+  },
+  "evaluation": {
+    "results_path": "models/artifacts/evaluation",
+    "test_queries_count": 10,
+    "test_configs_count": 5
+  },
+  "enable_rag_evaluation": true,
+  "enable_report_evaluation": true,
+  "kpi_targets": {
+    "sql_accuracy": 0.90,
+    "response_time_p95": 3.0,
+    "evidence_citation_rate": 0.80,
+    "user_satisfaction": 4.0
+  }
+}
+>>>>>>> b15a617 (first commit)
